@@ -16,7 +16,9 @@ const authSchema = new Schema(
       type: String,
       enum: Object.values(UserEnums),
       default: UserEnums.USER
-    }
+    },
+    message: String,
+    status: { type: Number, default: 1 }
   },
   {
     timestamps: true

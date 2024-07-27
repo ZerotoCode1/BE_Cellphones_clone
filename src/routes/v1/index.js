@@ -59,7 +59,8 @@ const { asyncHandler } = require('../../utils/asyncHandle')
 const { authenToken } = require('../../utils/authenToken')
 const { uploadsMidleware } = require('../../middlewares/uploadMidleware')
 const { getMessages, sendMessage } = require('../../controllers/chat-controler/chat.controler')
-
+const { getParameterBycategoryId } = require('../../controllers/paramater.controler')
+const { uploadImage } = require('../../controllers/upLoad.controler')
 const router = require('express').Router()
 router.post('/v1/api/create', uploadsMidleware.single('image'), asyncHandler(createUserController))
 router.put(
@@ -157,5 +158,7 @@ router.put('/v1/api/noti', authenToken, asyncHandler(updateNotiId))
 // test
 router.get('/v1/api/chat/:id', getMessages)
 router.post('/v1/api/send/:id', sendMessage)
+router.post('/v1/api/upLoadImage', authenToken, uploadsMidleware.single('image'), uploadImage)
+router.get('/v1/api/parameter', getParameterBycategoryId)
 
 module.exports = router

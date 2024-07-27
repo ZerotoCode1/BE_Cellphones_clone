@@ -1,5 +1,7 @@
 'use strict'
 const productService = require('../services/product.service')
+const ParameterService = require('../services/parameter.service')
+
 const cloudinary = require('cloudinary').v2
 const productController = async (req, res) => {
   try {
@@ -14,9 +16,31 @@ const productController = async (req, res) => {
     const product = await productService.createProduct({
       ...data,
       image: path.substring(0, path.lastIndexOf(',')),
-      imageName: req.files.map((file) => file.filename)
+      imageName: req.files.map((file) => file.filename),
+      numberTechnical: JSON.parse(data.numberTechnical),
+      version: JSON.parse(data.version),
+      versionColor: JSON.parse(data.versionColor)
     })
     res.status(200).json({ status: 'Success', data: product })
+    try {
+      const Para = JSON.parse(data.numberTechnical).forEach(async (element) => {
+        const Parameter = await ParameterService.findBynameParametr({
+          nameParameter: element.topic
+        })
+        const Category = await ParameterService.findByIdCategory({ categoryId: data.category_id })
+        if (!Parameter || !Category) {
+          const Parameter = await ParameterService.createParameter({
+            categoryId: data.category_id,
+            nameParameter: element.topic
+          })
+          console.log(Parameter, 'tạo thành công Parameter')
+        } else {
+          console.log('đã tồn tại Parameter')
+        }
+      })
+    } catch (err) {
+      console.log(err)
+    }
   } catch (err) {
     cloudinary.api.delete_resources(req.files.map((file) => file.filename))
     res.status(500).json({ error: err.message })

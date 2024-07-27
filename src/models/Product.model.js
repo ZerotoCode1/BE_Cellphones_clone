@@ -7,8 +7,35 @@ const productSchema = new Schema(
     productName: { type: String, required: true, unique: true },
     image: { type: String, required: true },
     imageName: { type: Array, default: [] },
+    numberTechnical: [
+      {
+        key: String,
+        technical: String,
+        describe: String,
+        representative: Boolean,
+        topic: String
+      }
+    ],
+    version: [
+      {
+        id: Number,
+        nameVersion: String,
+        priceVersion: Number,
+        quannity: Array,
+        color: Array,
+        data: Array
+      }
+    ],
+    versionColor: [
+      {
+        image: String,
+        name: String,
+        nameImage: String
+      }
+    ],
     price: { type: String, required: true },
     description: { type: String, required: true },
+    content: { type: String },
     category_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Category'

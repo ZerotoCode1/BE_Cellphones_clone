@@ -130,14 +130,16 @@ const LoginController = async (req, res) => {
       user: user._id,
       role: user.role,
       mail: user.mail,
-      password: user.password
+      password: user.password,
+      message: 'Đăng nhập thành công',
+      status: 1
     })
     if (!authToken) {
       return res.status(500).json({ message: 'login failed' })
     }
-    return res.status(200).json(authToken)
+    return res.status(200).send(authToken)
   } catch (err) {
-    res.status(500).json({ error: err.message })
+    res.status(200).send({ error: err.message })
   }
 }
 const refreshTokenController = async (req, res) => {
