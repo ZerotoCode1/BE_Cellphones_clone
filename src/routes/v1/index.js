@@ -52,6 +52,12 @@ const {
   getPostsId,
   updatePostsId
 } = require('../../controllers/posts.controler')
+const {
+  CreateRattingProductId,
+  DeleteRattingProductId,
+  UpdateRattingProductId,
+  getRattingControler
+} = require('../../controllers/ratting.controler')
 
 const { getNotiController, updateNotiId } = require('../../controllers/noti.controler')
 const { getIntroControler, updateAndCreateIntroId } = require('../../controllers/intro.controler')
@@ -160,5 +166,13 @@ router.get('/v1/api/chat/:id', getMessages)
 router.post('/v1/api/send/:id', sendMessage)
 router.post('/v1/api/upLoadImage', authenToken, uploadsMidleware.single('image'), uploadImage)
 router.get('/v1/api/parameter', getParameterBycategoryId)
+// đánh giá
+router.post('/v1/api/ratting', authenToken, asyncHandler(CreateRattingProductId))
+router.get('/v1/api/rattingId', asyncHandler(getRattingControler))
+router.put('/v1/api/rattingId', authenToken, asyncHandler(UpdateRattingProductId))
+router.delete('/v1/api/rattingId', authenToken, asyncHandler(DeleteRattingProductId))
+// router.get('/v1/api/parameter123', (req, res) => {
+//   res.status(200).json('nmadz')
+// })
 
 module.exports = router
