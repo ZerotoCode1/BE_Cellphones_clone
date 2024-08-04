@@ -13,9 +13,10 @@ const productController = async (req, res) => {
       cloudinary.api.delete_resources(req.files.map((file) => file.filename))
       return res.status(403).json({ message: 'product exist' })
     }
+    const images = path.split(',').filter((image) => image !== '')
     const product = await productService.createProduct({
       ...data,
-      image: path.substring(0, path.lastIndexOf(',')),
+      image: images,
       imageName: req.files.map((file) => file.filename),
       numberTechnical: JSON.parse(data.numberTechnical),
       version: JSON.parse(data.version),
@@ -33,7 +34,6 @@ const productController = async (req, res) => {
             categoryId: data.category_id,
             nameParameter: element.topic
           })
-          console.log(Parameter, 'tạo thành công Parameter')
         } else {
           console.log('đã tồn tại Parameter')
         }
