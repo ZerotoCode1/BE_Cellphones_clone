@@ -3,7 +3,9 @@ const {
   getCategory,
   updateCategoryId,
   getCategoryId,
-  deleteCategoryId
+  deleteCategoryId,
+  createAddtribute,
+  getAddtribute
 } = require('../../controllers/category.controler')
 const {
   createUserController,
@@ -56,8 +58,14 @@ const {
   CreateRattingProductId,
   DeleteRattingProductId,
   UpdateRattingProductId,
-  getRattingControler
+  getRattingControler,
+  getRatingStatistics,
+  getRattingFilter
 } = require('../../controllers/ratting.controler')
+
+const { zalopayment, callbackZalopayment } = require('../../controllers/Payment/zalopay')
+const { momopayment, callbackmomo } = require('../../controllers/Payment/momo')
+const { vnpay } = require('../../controllers/Payment/vnpay')
 
 const { getNotiController, updateNotiId } = require('../../controllers/noti.controler')
 const { getIntroControler, updateAndCreateIntroId } = require('../../controllers/intro.controler')
@@ -98,6 +106,9 @@ router.put(
   asyncHandler(updateCategoryId)
 )
 router.delete('/v1/api/categoryId', authenToken, asyncHandler(deleteCategoryId))
+router.post('/v1/api/createaddtribute', authenToken, asyncHandler(createAddtribute))
+router.get('/v1/api/getsaddtribute', authenToken, asyncHandler(getAddtribute))
+
 // product
 router.post(
   '/v1/api/product',
@@ -167,12 +178,25 @@ router.post('/v1/api/send/:id', sendMessage)
 router.post('/v1/api/upLoadImage', authenToken, uploadsMidleware.single('image'), uploadImage)
 router.get('/v1/api/parameter', getParameterBycategoryId)
 // đánh giá
-router.post('/v1/api/ratting', authenToken, asyncHandler(CreateRattingProductId))
+router.post(
+  '/v1/api/ratting',
+  authenToken,
+  uploadsMidleware.single('image'),
+  asyncHandler(CreateRattingProductId)
+)
 router.get('/v1/api/rattingId', asyncHandler(getRattingControler))
+router.get('/v1/api/rattingStatics', asyncHandler(getRatingStatistics))
+router.get('/v1/api/rattingFilter', asyncHandler(getRattingFilter))
 router.put('/v1/api/rattingId', authenToken, asyncHandler(UpdateRattingProductId))
 router.delete('/v1/api/rattingId', authenToken, asyncHandler(DeleteRattingProductId))
+
 // router.get('/v1/api/parameter123', (req, res) => {
 //   res.status(200).json('nmadz')
 // })
+router.post('/v1/api/zalopayment', authenToken, asyncHandler(zalopayment))
+router.post('/v1/api/callbackzalo', asyncHandler(callbackZalopayment))
+router.post('/v1/api/momopayment', authenToken, asyncHandler(momopayment))
+router.post('/v1/api/callbackmomo', asyncHandler(callbackmomo))
+router.post('/v1/api/vnpaypayment', authenToken, asyncHandler(vnpay))
 
 module.exports = router

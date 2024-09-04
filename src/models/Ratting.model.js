@@ -22,6 +22,10 @@ const RatingSchema = new Schema(
     comment: {
       type: String,
       required: false
+    },
+    image: {
+      type: String,
+      required: false
     }
   },
   {

@@ -65,6 +65,7 @@ const getProductId = async (req, res) => {
 }
 const updateProductId = async (req, res) => {
   try {
+    const data = req.body
     let path = ''
     req.files.forEach((files) => (path = path + files.path + ','))
     const productId = await productService.findProductById({ _id: req.body._id })
@@ -77,7 +78,10 @@ const updateProductId = async (req, res) => {
         ...req.body,
         _id: req.body._id,
         image: productId.image,
-        imageName: productId.imageName
+        imageName: productId.imageName,
+        numberTechnical: JSON.parse(data.numberTechnical),
+        version: JSON.parse(data.version),
+        versionColor: JSON.parse(data.versionColor)
       })
       return res.status(200).json(product)
     }
@@ -85,8 +89,12 @@ const updateProductId = async (req, res) => {
       ...req.body,
       _id: req.body._id,
       image: path.substring(0, path.lastIndexOf(',')),
-      imageName: req.files.map((file) => file.filename)
+      imageName: req.files.map((file) => file.filename),
+      numberTechnical: JSON.parse(data.numberTechnical),
+      version: JSON.parse(data.version),
+      versionColor: JSON.parse(data.versionColor)
     })
+
     cloudinary.api.delete_resources(req.body?.imageName.split(','), (err, result) => {
       console.log(err, result)
     })

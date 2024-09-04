@@ -30,3 +30,24 @@ exports.deleteRatting = async (query) => {
     productId: query.productId
   })
 }
+// exports.getFilterRatting = async (query) => {
+//   const filter = { productId: query.productId }
+//   if (query.numberRate) {
+//     filter.rating = Number(query.numberRate) // Chuyển đổi số điểm thành kiểu Number
+//   }
+//   return await RatingModel.find(filter)
+// }
+
+exports.getFilterRatting = async (query) => {
+  const filter = { productId: query.productId }
+
+  if (query.numberRate) {
+    filter.rating = Number(query.numberRate) // Chuyển đổi số điểm thành kiểu Number
+  }
+
+  if (query.image) {
+    filter.image = { $exists: true, $ne: null } // Kiểm tra xem có thuộc tính image và image khác null
+  }
+
+  return await RatingModel.find(filter)
+}

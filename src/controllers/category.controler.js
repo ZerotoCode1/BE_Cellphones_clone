@@ -75,11 +75,34 @@ const deleteCategoryId = async (req, res) => {
     res.status(500).json({ error: err.message })
   }
 }
+const createAddtribute = async (req, res) => {
+  try {
+    const data = req.body
+    const body = {
+      categoryId: data.categoryId,
+      numberTechnical: JSON.parse(data.numberTechnical)
+    }
+    const category = await service.createAddtribute(body)
+    return res.status(200).json(category)
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+}
+const getAddtribute = async (req, res) => {
+  try {
+    const category = await service.getAddtribute(req.query)
+    return res.status(200).json(category || [])
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+}
 
 module.exports = {
   createCategory,
   getCategory,
   getCategoryId,
   updateCategoryId,
-  deleteCategoryId
+  deleteCategoryId,
+  createAddtribute,
+  getAddtribute
 }
