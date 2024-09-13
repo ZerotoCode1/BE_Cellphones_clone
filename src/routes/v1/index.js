@@ -63,7 +63,13 @@ const {
   getRattingFilter
 } = require('../../controllers/ratting.controler')
 
-const { zalopayment, callbackZalopayment } = require('../../controllers/Payment/zalopay')
+const {
+  zalopayment,
+  callbackZalopayment,
+  paymentHome,
+  refundZalopay,
+  checkStatusRefund
+} = require('../../controllers/Payment/zalopay')
 const { momopayment, callbackmomo } = require('../../controllers/Payment/momo')
 const { vnpay } = require('../../controllers/Payment/vnpay')
 
@@ -75,6 +81,15 @@ const { uploadsMidleware } = require('../../middlewares/uploadMidleware')
 const { getMessages, sendMessage } = require('../../controllers/chat-controler/chat.controler')
 const { getParameterBycategoryId } = require('../../controllers/paramater.controler')
 const { uploadImage } = require('../../controllers/upLoad.controler')
+const { getDataPayment } = require('../../controllers/Payment/payment.controler')
+const {
+  createShopLocation,
+  getShop,
+  updateShopLocations,
+  deleteShopById
+} = require('../../controllers/shopLocation.controler')
+const { updatePaymentData } = require('../../controllers/payment.controler')
+
 const router = require('express').Router()
 router.post('/v1/api/create', uploadsMidleware.single('image'), asyncHandler(createUserController))
 router.put(
@@ -198,5 +213,18 @@ router.post('/v1/api/callbackzalo', asyncHandler(callbackZalopayment))
 router.post('/v1/api/momopayment', authenToken, asyncHandler(momopayment))
 router.post('/v1/api/callbackmomo', asyncHandler(callbackmomo))
 router.post('/v1/api/vnpaypayment', authenToken, asyncHandler(vnpay))
+router.post('/v1/api/refundpayment', authenToken, asyncHandler(refundZalopay))
+router.post('/v1/api/checkstatusrefund', authenToken, asyncHandler(checkStatusRefund))
+
+router.get('/v1/api/getDataPayment', authenToken, asyncHandler(getDataPayment))
+
+router.get('/v1/api/getShopLocation', asyncHandler(getShop))
+router.post('/v1/api/createShop', authenToken, asyncHandler(createShopLocation))
+router.put('/v1/api/updateShop', authenToken, asyncHandler(updateShopLocations))
+router.delete('/v1/api/deleteShop', authenToken, asyncHandler(deleteShopById))
+
+router.post('/v1/api/paymentHome', authenToken, asyncHandler(paymentHome))
+
+router.put('/v1/api/updatePayment', authenToken, asyncHandler(updatePaymentData))
 
 module.exports = router

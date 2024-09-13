@@ -46,11 +46,17 @@ const productSchema = new Schema(
     weight: { type: String },
     size: { type: String },
     color: { type: String },
+    vdeo: { type: String },
     promoteType: { type: Boolean },
     promotePrice: {
       type: String,
       enum: ['percentage', 'fixed'],
       default: 'fixed'
+    },
+    quannityTotal: {
+      type: Number,
+      default: 0,
+      required: true
     }
   },
   {

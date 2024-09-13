@@ -13,13 +13,16 @@ const paymentSchema = new Schema(
         titleProduct: String,
         salePrice: Number,
         topic: String,
-        quantity: Number
+        quantity: Number,
+        id_version: String,
+        keyColor: String
       }
     ],
     informationShip: { type: Object, required: true },
     nameCusstormer: { type: String, required: true },
     status: { type: Number, required: true },
-    userId: { type: String, required: true }
+    userId: { type: String, required: true },
+    orderId: { type: Number, required: true }
   },
   {
     timestamps: true

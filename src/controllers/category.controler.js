@@ -49,7 +49,7 @@ const updateCategoryId = async (req, res) => {
     }
     const category = await service.updateAndCreateCategory({
       ...req.body,
-      image: req.file.path,
+      image: req?.body?.image ?? req.file.path,
       imageName: req.file?.filename
     })
     cloudinary.uploader.destroy(req.body?.imageName)
